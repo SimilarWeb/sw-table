@@ -4,30 +4,35 @@
 
 angular.module('main', ['sw.table'])
     .controller('mainCtrl', function ($scope, $templateCache) {
+        /*
+        * @param {obj} config
+        * @returns {obj} column configuration object
+        */
+        var Column = function(config) {
+            this.field = config.field || 'DaysSinceInstall';
+            this.displayName = config.displayName || '';
+            this.cellTemplate = config.cellTemplate || 'templates/default-cell.html';
+            this.headerCellTemplate = config.headerCellTemplate || 'templates/default-header-cell.html';
+            this.sortable = config.sortable || false;
+        };
+
         // Table Config
         $scope.tableColumns = [
-            {
-                field: 'DaysSinceInstall',
-                displayName: 'mobileApps.storePage.retentionTable.columns.DaysSinceInstall.title',
-                cellTemplate: 'templates/days-since-install.html',
-                headerCellTemplate: 'templates/default-header.html',
-                sortable: false
-            },
-            {
-                field: 'Retention',
-                displayName: 'Retention',
-                cellTemplate: 'templates/traffic-share.html',
-                headerCellTemplate: 'templates/defaultHeader.html',
-                sortable: false
-            },
-            {
-                field: 'BenchmarkRetention',
-                displayName: 'Benchmark Retention',
-                cellTemplate: 'templates/traffic-share.html',
-                headerClass: 'percentage',
-                headerCellTemplate: 'templates/default-header.html',
-                sortable: false
-            }
+            new Column({
+                field: 'name',
+                displayName: 'Name',
+                cellTemplate: 'templates/days-since-install.html'
+            }),
+            new Column({
+                field: 'globalRank',
+                displayName: 'Global Rank',
+                cellTemplate: 'templates/traffic-share.html'
+            }),
+            new Column({
+                field: 'rankChange',
+                displayName: 'Rank Change',
+                cellTemplate: 'templates/traffic-share.html'
+            })
         ];
 
         $scope.tableData = [

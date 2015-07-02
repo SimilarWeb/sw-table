@@ -1,6 +1,6 @@
 <div class="sw-progress">
-    <div class="value">10%</div>
-    <div class="bar">
-        <div style="background: red; width: 50%;"></div>
+    <div class="value">{{ row[cell.field] }}</div>
+    <div class="bar" style="background: grey; width: 50px; height: 10px;">
+        <div style="background: red; width: {{ row[cell.field] }}%; height: 10px;"></div>
     </div>
 </div>
