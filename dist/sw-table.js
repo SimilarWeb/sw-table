@@ -29,7 +29,11 @@ angular.module('sw.table').run(['$templateCache', function($templateCache) {
     "\n" +
     "    <div class=\"swTable-row\" ng-repeat=\"row in tableData\">\r" +
     "\n" +
-    "        <div class=\"swTable-cell\" ng-repeat=\"cell in Tablecolumns\"></div>\r" +
+    "        <div class=\"swTable-cell\" ng-repeat=\"cell in tableColumns\">\r" +
+    "\n" +
+    "            <div ng-include=\"cell.cellTemplate\"></div>\r" +
+    "\n" +
+    "        </div>\r" +
     "\n" +
     "    </div>\r" +
     "\n" +

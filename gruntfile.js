@@ -54,11 +54,11 @@ module.exports = function (grunt) {
                 interrupt: true
             },
             html: {
-                files: ['src/*.html'],
+                files: ['src/*.html', 'templates/*.html'],
                 tasks: ['ngtemplates']
             },
             scripts: {
-                files: ['src/*.js'],
+                files: ['src/*.js', 'development.js'],
                 tasks: ['concat']
             },
             styles: {

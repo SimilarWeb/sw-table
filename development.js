@@ -9,23 +9,23 @@ angular.module('main', ['sw.table'])
             {
                 field: 'DaysSinceInstall',
                 displayName: 'mobileApps.storePage.retentionTable.columns.DaysSinceInstall.title',
-                cellTemplate: $templateCache.get('days-since-install.html'),
-                headerCellTemplate: $templateCache.get('default-header.html'),
+                cellTemplate: 'templates/days-since-install.html',
+                headerCellTemplate: 'templates/default-header.html',
                 sortable: false
             },
             {
                 field: 'Retention',
                 displayName: 'Retention',
-                cellTemplate: $templateCache.get('trafficshare.html'),
-                headerCellTemplate: $templateCache.get('defaultHeader.html'),
+                cellTemplate: 'templates/traffic-share.html',
+                headerCellTemplate: 'templates/defaultHeader.html',
                 sortable: false
             },
             {
                 field: 'BenchmarkRetention',
                 displayName: 'Benchmark Retention',
-                cellTemplate: $templateCache.get('traffic-share.html'),
+                cellTemplate: 'templates/traffic-share.html',
                 headerClass: 'percentage',
-                headerCellTemplate: $templateCache.get('default-header.html'),
+                headerCellTemplate: 'templates/default-header.html',
                 sortable: false
             }
         ];
