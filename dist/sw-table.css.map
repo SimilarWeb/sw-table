@@ -1,0 +1,10 @@
+{
+	"version": 3,
+	"file": "sw-table.css",
+	"sources": [
+		"../src/main.scss"
+	],
+	"sourcesContent": [],
+	"mappings": "AAAA,QAAQ,CAAC;EACP,OAAO,EAAE,KAAM,GADP;;AAGV,YAAY,CAAC;EACX,OAAO,EAAE,SAAU,GADP;;AAGd,aAAa,CAAC;EACZ,OAAO,EAAE,UAAW,GADP;;AAGf,mBAAmB,CAAC;EAClB,OAAO,EAAE,UAAW,GADD",
+	"names": []
+}

@@ -1,0 +1,13 @@
+.swTable {
+  display: table; }
+
+.swTable-row {
+  display: table-row; }
+
+.swTable-cell {
+  display: table-cell; }
+
+.swTable-headerCell {
+  display: table-cell; }
+
+/*# sourceMappingURL=sw-table.css.map */
