@@ -1,11 +1,27 @@
 'use strict';
 angular.module('sw.table', [])
     .constant('tableConfig', {
-        displayFormat: 'MMM, YYYY',
-        customFormat: 'YYYY.MM'
+        pageSize: 100,
+        sortDirection: 'ASC'
     })
-    .controller('tableCtrl', function ($scope) {
-        $scope.tableRows = $scope.tableData;
+    .controller('tableCtrl', function($scope) {
+        // todo add default params to columns here so it doesn't need to be in every controller
+    })
+    .service('tableService', function(tableConfig) {
+        return {
+            /*
+             * @param {obj} config
+             * @returns {obj} column configuration object
+             */
+            Column: function(config) {
+                this.field = config.field || 'DaysSinceInstall';
+                this.displayName = config.displayName || '';
+                this.cellTemplate = config.cellTemplate || 'templates/default-cell.html';
+                this.headerCellTemplate = config.headerCellTemplate || 'templates/default-header-cell.html';
+                this.sortable = config.sortable || false;
+                this.sortDirection = config.sortDirection || tableConfig.sortDirection;
+            }
+        };
     })
     .directive('swTable', function () {
         return {
@@ -48,6 +64,19 @@ angular.module('sw.table').run(['$templateCache', function($templateCache) {
     "        </div>\r" +
     "\n" +
     "    </div>\r" +
+    "\n" +
+    "</div>"
+  );
+
+
+  $templateCache.put('templates/app-name.html',
+    "<div>{{ row[cell.field] }}</div>\r" +
+    "\n" +
+    "<div class=\"tooltip\">\r" +
+    "\n" +
+    "    <img src=\"{{ row.tooltip.Icon }}\" alt=\"\"/>\r" +
+    "\n" +
+    "    <div>Author: {{ row.Author }}</div>\r" +
     "\n" +
     "</div>"
   );

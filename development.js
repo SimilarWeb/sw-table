@@ -3,32 +3,20 @@
  */
 
 angular.module('main', ['sw.table'])
-    .controller('mainCtrl', function ($scope, $templateCache) {
-        /*
-        * @param {obj} config
-        * @returns {obj} column configuration object
-        */
-        var Column = function(config) {
-            this.field = config.field || 'DaysSinceInstall';
-            this.displayName = config.displayName || '';
-            this.cellTemplate = config.cellTemplate || 'templates/default-cell.html';
-            this.headerCellTemplate = config.headerCellTemplate || 'templates/default-header-cell.html';
-            this.sortable = config.sortable || false;
-        };
-
-        // Table Config
+    .controller('mainCtrl', function ($scope, tableService) {
         $scope.tableColumns = [
-            new Column({
+            new tableService.Column({
                 field: 'name',
                 displayName: 'Name',
-                cellTemplate: 'templates/days-since-install.html'
+                cellTemplate: 'templates/app-name.html'
             }),
-            new Column({
+            {
                 field: 'globalRank',
                 displayName: 'Global Rank',
-                cellTemplate: 'templates/traffic-share.html'
-            }),
-            new Column({
+                cellTemplate: 'templates/traffic-share.html',
+                headerCellTemplate: 'templates/default-header-cell.html'
+            },
+            new tableService.Column({
                 field: 'rankChange',
                 displayName: 'Rank Change',
                 cellTemplate: 'templates/traffic-share.html'
