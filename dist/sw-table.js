@@ -4,9 +4,6 @@ angular.module('sw.table', [])
         pageSize: 100,
         sortDirection: 'ASC'
     })
-    .controller('tableCtrl', function($scope) {
-        // todo add default params to columns here so it doesn't need to be in every controller
-    })
     .service('tableService', function(tableConfig) {
         return {
             /*
@@ -20,19 +17,49 @@ angular.module('sw.table', [])
                 this.headerCellTemplate = config.headerCellTemplate || 'templates/default-header-cell.html';
                 this.sortable = config.sortable || false;
                 this.sortDirection = config.sortDirection || tableConfig.sortDirection;
+                this.isSorted = config.isSorted || false;
+            },
+
+            onSorted: function(sortedCell) {
+                angular.forEach($scope.tableColumns, function(cellObj) {
+                    cellObj.isSorted = false;
+                });
+                sortedCell.isSorted = true;
+                sortedCell.sortDirection = sortedCell.sortDirection == 'ASC' ? 'DESC' : 'ASC';
             }
         };
     })
-    .directive('swTable', function () {
+    .directive('swTable', function (tableService) {
         return {
             restrict: 'E',
             scope: {
                 tableData: '=',
-                tableColumns: '='
+                tableColumns: '=',
+                onLoadMoreData: '&',
+                onSortData: '&'
             },
             templateUrl: 'src/table.html',
             replace: true,
-            controller: 'tableCtrl'
+            link: function postLink(scope, elem, attr) {
+                // init
+
+                // draw the UI under "elem"
+                // todo add default params to columns here so it doesn't need to be in every controller
+
+                // UI -> Model which means we register on events and change the *scope* variables
+                // as a result of events
+                scope.onSorted = function(sortedCell) {
+                    tableService.onSorted(sortedCell);
+                };
+                // todo check if there are more results than already loaded before sending request
+
+                // Model -> UI which is where we assign watches to scope variables and change
+                // the UI when they change
+                // todo load more/ pagination
+
+                // cleanup where we unbind from global events upon scope destroy and/or perhaps
+                // send events down the scope tree or up the scope tree etc
+            }
         }
     })
 ;
@@ -45,7 +72,7 @@ angular.module('sw.table').run(['$templateCache', function($templateCache) {
     "\n" +
     "    <div class=\"swTable-row swTable-headerRow\">\r" +
     "\n" +
-    "        <div class=\"swTable-headerCell\" ng-repeat=\"cell in tableColumns\">\r" +
+    "        <div class=\"swTable-headerCell\" ng-repeat=\"cell in tableColumns\" ng-click=\"onSorted(cell)\" ng-class=\"{'is-sorted': cell.isSorted}\">\r" +
     "\n" +
     "            <div ng-include=\"cell.headerCellTemplate\"></div>\r" +
     "\n" +
@@ -55,9 +82,7 @@ angular.module('sw.table').run(['$templateCache', function($templateCache) {
     "\n" +
     "    <div class=\"swTable-row\" ng-repeat=\"row in tableData\">\r" +
     "\n" +
-    "\r" +
-    "\n" +
-    "        <div class=\"swTable-cell\" ng-repeat=\"cell in tableColumns\">\r" +
+    "        <div class=\"swTable-cell\" ng-repeat=\"cell in tableColumns\" ng-class=\"{'is-sorted': cell.isSorted}\">\r" +
     "\n" +
     "            <div ng-include=\"cell.cellTemplate\"></div>\r" +
     "\n" +

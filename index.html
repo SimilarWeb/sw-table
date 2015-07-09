@@ -4,12 +4,27 @@
     <meta charset="UTF-8">
     <title></title>
     <link rel="stylesheet" type="text/css" href="dist/sw-table.css">
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300,400,700,600|Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+        }
+        .component {
+            background: #fff;
+            padding: 20px;
+            border: solid 1px #EAEAEA;
+        }
+    </style>
 </head>
 <body ng-app="main">
     <div ng-controller="mainCtrl">
-        <sw-table table-data="tableData" table-columns="tableColumns"></sw-table>
+        <div class="component">
+            <sw-table table-data="tableData" table-columns="tableColumns" on-sort-data="tableData" on-load-more-data="tableData"></sw-table>
+        </div>
     </div>
 <script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-mocks/angular-mocks.js"></script>
+<script src="bower_components/angular-resource/angular-resource.min.js"></script>
 <script src="dist/sw-table.js"></script>
 <script src="development.js"></script>
 </body>

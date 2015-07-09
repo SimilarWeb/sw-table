@@ -1,27 +1,28 @@
 .swTable {
   display: table;
-  width: 100%; }
-
+  width: 100%;
+}
 .swTable-row {
-  display: table-row; }
-
+  display: table-row;
+}
 .swTable-cell {
   display: table-cell;
   padding: 5px;
   border-bottom: solid 1px #EAEAEA;
   white-space: nowrap;
   text-overflow: ellipsis;
-  overflow: hidden; }
-  .swTable-cell.is-sorted {
-    background-color: #FAFAFA; }
-
+  overflow: hidden;
+  &.is-sorted {
+    background-color: #FAFAFA;
+  }
+}
 .swTable-headerCell {
   display: table-cell;
   padding: 5px;
   background-color: #354B63;
   color: #fff;
-  font-weight: bold; }
-  .swTable-headerCell.is-sorted {
-    background-color: #2D4159; }
-
-/*# sourceMappingURL=sw-table.css.map */
+  font-weight: bold;
+  &.is-sorted {
+    background-color: #2D4159;
+  }
+}

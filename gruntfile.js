@@ -8,7 +8,7 @@ module.exports = function (grunt) {
             },
             dist: {
                 files: {
-                    'dist/sw-table.css': 'src/main.scss'
+                    'dist/sw-table.css': 'src/scss/main.scss'
                 }
             }
         },
@@ -62,7 +62,7 @@ module.exports = function (grunt) {
                 tasks: ['concat']
             },
             styles: {
-                files: ['src/*.scss'],
+                files: ['src/scss/*.scss'],
                 tasks: ['sass']
             }
         }
