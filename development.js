@@ -77,26 +77,42 @@ angular.module('main', ['sw.table', 'ngResource', 'ngMockE2E'])
         }
     ])
     .run(function($httpBackend, ServerDataModel) {
-        var tableData = ServerDataModel.data;
+        var tableData = ServerDataModel.data,
+            pageSize = 5;
 
-        // returns the current list of phones
         $httpBackend.whenGET('/tableData').respond(function(method, url, data) {
             return [200, tableData, {}];
         });
+        // must use regex to catch query params due to issue in $httpbackend
+        // also the order of query params is important
+        $httpBackend.whenGET(/\/tableData\?field/).respond(function(method, url, data) {
+            return [200, ServerDataModel.sortData(tableData), {}];
+        });
+        $httpBackend.whenGET(/\/tableData\?pageSize/).respond(function(method, url, data) {
+            return [200, ServerDataModel.loadMoreData(pageSize), {}];
+        });
     })
     .service('ServerDataModel', function ServerDataModel(mockData) {
-        this.data = mockData;
-
-        this.sortData = function(fieldToSort){
-            var data = this.data;
-            // todo sorting
-            return data;
-        }
-    })
-    .factory('HttpService', function($http) {
         return {
-            query: function() {
-                return $http.get('/tableData');
+            data: mockData,
+            sortData: function(field, sortDirection){
+                // not really sorting, just simulating with a simple reverse
+                return this.data.reverse();
+            },
+            loadMoreData: function(pageSize){
+                var data = this.data;
+                for (var i = 0; i < pageSize; i++) {
+                    var copy = angular.copy(this.data[0]);
+                    data.push(copy);
+                }
+                return data;
+            }
+        };
+    })
+    .factory('HttpService', function($http, ServerDataModel) {
+        return {
+            query: function(params) {
+                return $http.get('/tableData', { params: params });
             }
         };
     })
@@ -120,8 +136,8 @@ angular.module('main', ['sw.table', 'ngResource', 'ngMockE2E'])
             })
         ];
         $scope.tableData = [];
-        $scope.queryHttp = function() {
-            HttpService.query()
+        $scope.queryHttp = function(params) {
+            HttpService.query(params)
                 .error(function(data, status, headers) {
                     $scope.tableData = data;
                 })

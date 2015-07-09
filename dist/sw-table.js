@@ -1,7 +1,7 @@
 'use strict';
 angular.module('sw.table', [])
     .constant('tableConfig', {
-        pageSize: 100,
+        pageSize: 5,
         sortDirection: 'ASC'
     })
     .service('tableService', function(tableConfig) {
@@ -20,28 +20,33 @@ angular.module('sw.table', [])
                 this.isSorted = config.isSorted || false;
             },
 
-            onSorted: function(sortedCell) {
-                angular.forEach($scope.tableColumns, function(cellObj) {
+            onSorted: function(sortedCell, tableColumns, onUpdateData) {
+                angular.forEach(tableColumns, function(cellObj) {
                     cellObj.isSorted = false;
                 });
                 sortedCell.isSorted = true;
                 sortedCell.sortDirection = sortedCell.sortDirection == 'ASC' ? 'DESC' : 'ASC';
+                onUpdateData({field: sortedCell.field, sortDirection: sortedCell.sortDirection});
+            },
+
+            onLoadMoreData: function(pageSize, onUpdateData) {
+                onUpdateData({pageSize: pageSize});
             }
         };
     })
-    .directive('swTable', function (tableService) {
+    .directive('swTable', function (tableService, tableConfig) {
         return {
             restrict: 'E',
             scope: {
                 tableData: '=',
                 tableColumns: '=',
-                onLoadMoreData: '&',
-                onSortData: '&'
+                updateDataCallback: '&'
             },
             templateUrl: 'src/table.html',
             replace: true,
             link: function postLink(scope, elem, attr) {
                 // init
+                scope.updateDataCallback = scope.updateDataCallback(); //unwrap the function for easier syntax and allow for nesting in other directives and services
 
                 // draw the UI under "elem"
                 // todo add default params to columns here so it doesn't need to be in every controller
@@ -49,9 +54,11 @@ angular.module('sw.table', [])
                 // UI -> Model which means we register on events and change the *scope* variables
                 // as a result of events
                 scope.onSorted = function(sortedCell) {
-                    tableService.onSorted(sortedCell);
+                    tableService.onSorted(sortedCell, scope.tableColumns, scope.updateDataCallback);
                 };
-                // todo check if there are more results than already loaded before sending request
+                scope.onLoadMoreData = function() {
+                    tableService.onLoadMoreData(tableConfig.pageSize, scope.updateDataCallback);
+                };
 
                 // Model -> UI which is where we assign watches to scope variables and change
                 // the UI when they change
@@ -90,6 +97,8 @@ angular.module('sw.table').run(['$templateCache', function($templateCache) {
     "\n" +
     "    </div>\r" +
     "\n" +
+    "    <button type=\"button\" ng-click=\"onLoadMoreData()\">Load More Data</button>\r" +
+    "\n" +
     "</div>"
   );
 
@@ -99,7 +108,7 @@ angular.module('sw.table').run(['$templateCache', function($templateCache) {
     "\n" +
     "<div class=\"tooltip\">\r" +
     "\n" +
-    "    <img src=\"{{ row.tooltip.Icon }}\" alt=\"\"/>\r" +
+    "    <img width=\"36\" height=\"36\" src=\"{{ row.tooltip.Icon }}\" alt=\"\"/>\r" +
     "\n" +
     "    <div>Author: {{ row.Author }}</div>\r" +
     "\n" +
