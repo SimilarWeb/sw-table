@@ -1,9 +1,22 @@
 .swTable {
   display: table;
-  width: 100%; }
+  width: 100%;
+  table-layout: fixed; }
+
+.swTable-rowWrapper {
+  display: table-row-group; }
+
+.swTable-rowWrapper--expanded .swTable-row {
+  background-color: lightblue; }
+
+.swTable-rowWrapper--expanded .swTable-ChildRow {
+  display: table-row; }
 
 .swTable-row {
   display: table-row; }
+
+.swTable-ChildRow {
+  display: none; }
 
 .swTable-cell {
   display: table-cell;

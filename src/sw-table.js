@@ -17,9 +17,14 @@ angular.module('sw.table', [])
                 this.sortable = config.sortable || false;
                 this.sortDirection = config.sortDirection || tableConfig.sortDirection;
                 this.isSorted = config.isSorted || false;
+                //this.width = '60px';
             },
 
             onSorted: function(sortedCell, tableColumns, onUpdateData) {
+                if (!sortedCell.sortable) {
+                    return;
+                }
+
                 angular.forEach(tableColumns, function(cellObj) {
                     cellObj.isSorted = false;
                 });
@@ -46,7 +51,6 @@ angular.module('sw.table', [])
             link: function postLink(scope, elem, attr) {
                 // init
                 scope.updateDataCallback = scope.updateDataCallback(); //unwrap the function for easier syntax and allow for nesting in other directives and services
-
                 // draw the UI under "elem"
                 // todo add default params to columns here so it doesn't need to be in every controller
 
@@ -57,6 +61,9 @@ angular.module('sw.table', [])
                 };
                 scope.onLoadMoreData = function() {
                     tableService.onLoadMoreData(tableConfig.pageSize, scope.updateDataCallback);
+                };
+                scope.onRowToggle = function(row){
+                    row.toggle = !row.toggle;
                 };
 
                 // Model -> UI which is where we assign watches to scope variables and change
