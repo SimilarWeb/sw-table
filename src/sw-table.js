@@ -17,7 +17,7 @@ angular.module('sw.table', [])
                 this.sortable = config.sortable || false;
                 this.sortDirection = config.sortDirection || tableConfig.sortDirection;
                 this.isSorted = config.isSorted || false;
-                //this.width = '60px';
+                this.width = config.width;
             },
 
             onSorted: function(sortedCell, tableColumns, onUpdateData) {

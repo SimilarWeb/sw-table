@@ -18,7 +18,7 @@ angular.module('sw.table', [])
                 this.sortable = config.sortable || false;
                 this.sortDirection = config.sortDirection || tableConfig.sortDirection;
                 this.isSorted = config.isSorted || false;
-                //this.width = '60px';
+                this.width = config.width;
             },
 
             onSorted: function(sortedCell, tableColumns, onUpdateData) {
@@ -84,20 +84,21 @@ angular.module('sw.table').run(['$templateCache', function($templateCache) {
   $templateCache.put('src/table.html',
     "<div class=\"swTable\">\n" +
     "    <div class=\"swTable-row swTable-headerRow\">\n" +
-    "        <div class=\"swTable-headerCell\"></div>\n" +
-    "        <div class=\"swTable-headerCell\" ng-repeat=\"cell in tableColumns\" ng-click=\"onSorted(cell)\" ng-class=\"{'is-sorted': cell.isSorted}\" ng-include=\"cell.headerCellTemplate\" ng-style=\"{'width': cell.width}\">\n" +
+    "        <div class=\"swTable-headerCell\" style=\"width: 61px;\"></div>\n" +
+    "        <div class=\"swTable-headerCell\" ng-repeat=\"cell in tableColumns\" ng-click=\"onSorted(cell)\" ng-class=\"{'is-sorted': cell.isSorted, 'sortDirection--asc': cell.sortDirection == 'ASC', 'sortDirection--desc': cell.sortDirection == 'DESC'}\" ng-include=\"cell.headerCellTemplate\" ng-style=\"{'width': cell.width + 'px'}\">\n" +
     "        </div>\n" +
     "    </div>\n" +
-    "    <div class=\"swTable-rowWrapper\" ng-class=\"{'swTable-rowWrapper--expanded': row.toggle}\" ng-repeat=\"row in tableData\">\n" +
+    "    <div class=\"swTable-rowWrapper\" ng-class=\"{'swTable-rowWrapper--expanded': row.toggle, 'swTable-rowWrapper--collapsed': !row.toggle}\" ng-repeat=\"row in tableData\">\n" +
     "        <div class=\"swTable-row\">\n" +
     "            <div class=\"swTable-cell swTable-rowInfo\">\n" +
     "                <span class=\"swTable-rowNumber\">{{$index + 1}}</span>\n" +
-    "                <span ng-if=\"row.Children\" ng-click=\"onRowToggle(row)\">></span>\n" +
+    "                <span class=\"swTable-rowToggle\" ng-if=\"row.Children\" ng-click=\"onRowToggle(row)\"></span>\n" +
     "            </div>\n" +
     "            <div class=\"swTable-cell\" ng-repeat=\"cell in tableColumns\" ng-class=\"{'is-sorted': cell.isSorted}\" ng-include=\"cell.cellTemplate\">\n" +
     "            </div>\n" +
     "        </div>\n" +
     "        <div class=\"swTable-row swTable-ChildRow\" ng-repeat=\"row in row.Children\">\n" +
+    "            <div class=\"swTable-cell\"></div>\n" +
     "            <div class=\"swTable-cell\" ng-repeat=\"cell in tableColumns\" ng-class=\"{'is-sorted': cell.isSorted}\" ng-include=\"cell.cellTemplate\" ng-style=\"{'width': cell.width}\"></div>\n" +
     "        </div>\n" +
     "    </div>\n" +
@@ -130,7 +131,7 @@ angular.module('sw.table').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('templates/default-header-cell.html',
-    "<div>{{ cell.displayName }}</div>"
+    "<div sw-titelize=\"{{col.displayName}}\">{{ cell.displayName }}<div class=\"swTable-rowCount\">10,000</div><div class=\"swTable-sortDirection\"></div></div>"
   );
 
 
@@ -151,9 +152,9 @@ angular.module('sw.table').run(['$templateCache', function($templateCache) {
 
   $templateCache.put('templates/traffic-share.html',
     "<div class=\"sw-progress\">\n" +
-    "    <div class=\"value\">{{ row[cell.field] }}%</div>\n" +
-    "    <div class=\"bar\" style=\"background: grey; width: 50px; height: 10px;\">\n" +
-    "        <div style=\"background: red; width: {{ row[cell.field] }}%; height: 10px;\"></div>\n" +
+    "    <span class=\"value\">{{ row[cell.field] | percentage:2 }}%</span>\n" +
+    "    <div class=\"bar\" style=\"background: #CBD7E3; width: 250px; height: 14px; border: 1px solid #B8C4D2; display: inline-block;\">\n" +
+    "        <div style=\"background: #4A86C5; width: {{ row[cell.field] | percentage:2 }}%; height: 100%; border-right: 1px solid #B8C4D2;\"></div>\n" +
     "    </div>\n" +
     "</div>"
   );

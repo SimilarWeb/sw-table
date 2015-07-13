@@ -348,7 +348,40 @@ angular.module('main', ['sw.table', 'ngResource', 'ngMockE2E'])
                 }
             ]
         }
-    ])
+    ]).filter('percentage', function () {
+    return function (val, fraction, unavailable) {
+        val = Number(val);
+
+        if (isNaN(val)) {
+            return unavailable ? unavailable : '0';
+        }
+
+        if (!val && unavailable) {
+            return unavailable;
+        }
+
+        if (100 > val * 100 && val * 100 > 99.99) {
+            return ' > 99.99';
+        }
+
+        var zeros = '';
+        for (var k = 0; k < fraction - 1; k++) {
+            zeros += '0';
+        }
+        var round = Number('1' + zeros + '0');
+
+        if (0 < val * 100 && val * 100 < 1 / round && val !== 0) {
+            var ret = ' < 0.';
+            ret += zeros;
+            ret += '1';
+            return ret;
+        }
+
+        val = (Math.round(100 * val * round)) / round;
+        val = val.toFixed(fraction);
+        return val;
+    }
+    })
     .run(function($httpBackend, ServerDataModel) {
         var tableData = ServerDataModel.data,
             pageSize = 5;
@@ -411,7 +444,7 @@ angular.module('main', ['sw.table', 'ngResource', 'ngMockE2E'])
                     $scope.tableData = data;
                 })
                 .success(function(data) {
-                    $scope.tableData = data.slice(0,1);
+                    $scope.tableData = data;
                 });
         };
         $scope.queryHttp();

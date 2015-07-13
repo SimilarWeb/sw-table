@@ -1,14 +1,21 @@
+$lightBlue: #F8F9FD;
+$darkBlue: #354B63;
+* {
+  box-sizing: border-box;
+}
 .swTable {
   display: table;
   width: 100%;
   table-layout: fixed;
+  font-size: 14px;
+  color: #545454;
 }
 .swTable-rowWrapper {
   display: table-row-group;
 }
 .swTable-rowWrapper--expanded {
   .swTable-row {
-    background-color: lightblue;
+    background-color: $lightBlue;
   }
   .swTable-ChildRow {
     display: table-row;
@@ -16,28 +23,101 @@
 }
 .swTable-row {
   display: table-row;
+  height: 34px;
+  &:hover {
+    background-color: $lightBlue;
+  }
+}
+.swTable-headerRow {
+  height: 40px;
 }
 .swTable-ChildRow {
   display: none;
 }
 .swTable-cell {
   display: table-cell;
-  padding: 5px;
+  padding: 0 12px;
   border-bottom: solid 1px #EAEAEA;
   white-space: nowrap;
   text-overflow: ellipsis;
+  vertical-align: middle;
   overflow: hidden;
   &.is-sorted {
-    background-color: #FAFAFA;
+    background-color: $lightBlue;
+    border-right: 1px solid #EDEDED;
+    border-left: 1px solid #EDEDED;
   }
 }
 .swTable-headerCell {
   display: table-cell;
-  padding: 5px;
-  background-color: #354B63;
+  padding: 0 12px;
+  background-color: $darkBlue;
   color: #fff;
+  font-size: 13px;
   font-weight: bold;
+  vertical-align: middle;
   &.is-sorted {
     background-color: #2D4159;
+    text-decoration: underline;
   }
+}
+.swTable-rowToggle {
+  display: inline-block;
+  float: right;
+  cursor: pointer;
+  &:hover::before {
+    content: '\25B6';
+  }
+  &:before {
+    content: '\25B7';
+  }
+  .swTable-rowWrapper--expanded & {
+    &:before {
+      content: '\25BC';
+    }
+  }
+}
+.swTable-rowInfo {
+  text-align: center;
+}
+.swTable-rowCount {
+  display: inline-block;
+  color: $darkBlue;
+  background-color: #fff;
+  border-radius: 10px;
+  margin-left: 6px;
+  padding: 0 4px;
+}
+.swTable-sortDirection {
+  display: none;
+  color: #96A0AC;
+  margin-left: 5px;
+  .is-sorted & {
+    display: inline-block;
+  }
+  &:before {
+    content: '\25B4';
+    position: relative;
+    top: -5px;
+    left: 0;
+  }
+  &:after {
+    content: '\25BE';
+    position: relative;
+    top: 3px;
+    left: -7px;
+  }
+  .sortDirection--asc & {
+    &:after {
+      color: #fff;
+      content: '\25BE';
+    }
+  }
+  .sortDirection--desc &{
+    &:before {
+      color: #fff;
+      content: '\25B4';
+    }
+  }
+
 }

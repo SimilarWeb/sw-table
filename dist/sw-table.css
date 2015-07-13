@@ -1,40 +1,102 @@
+* {
+  box-sizing: border-box; }
+
 .swTable {
   display: table;
   width: 100%;
-  table-layout: fixed; }
+  table-layout: fixed;
+  font-size: 14px;
+  color: #545454; }
 
 .swTable-rowWrapper {
   display: table-row-group; }
 
 .swTable-rowWrapper--expanded .swTable-row {
-  background-color: lightblue; }
+  background-color: #F8F9FD; }
 
 .swTable-rowWrapper--expanded .swTable-ChildRow {
   display: table-row; }
 
 .swTable-row {
-  display: table-row; }
+  display: table-row;
+  height: 34px; }
+  .swTable-row:hover {
+    background-color: #F8F9FD; }
+
+.swTable-headerRow {
+  height: 40px; }
 
 .swTable-ChildRow {
   display: none; }
 
 .swTable-cell {
   display: table-cell;
-  padding: 5px;
+  padding: 0 12px;
   border-bottom: solid 1px #EAEAEA;
   white-space: nowrap;
   text-overflow: ellipsis;
+  vertical-align: middle;
   overflow: hidden; }
   .swTable-cell.is-sorted {
-    background-color: #FAFAFA; }
+    background-color: #F8F9FD;
+    border-right: 1px solid #EDEDED;
+    border-left: 1px solid #EDEDED; }
 
 .swTable-headerCell {
   display: table-cell;
-  padding: 5px;
+  padding: 0 12px;
   background-color: #354B63;
   color: #fff;
-  font-weight: bold; }
+  font-size: 13px;
+  font-weight: bold;
+  vertical-align: middle; }
   .swTable-headerCell.is-sorted {
-    background-color: #2D4159; }
+    background-color: #2D4159;
+    text-decoration: underline; }
+
+.swTable-rowToggle {
+  display: inline-block;
+  float: right;
+  cursor: pointer; }
+  .swTable-rowToggle:hover::before {
+    content: '\25B6'; }
+  .swTable-rowToggle:before {
+    content: '\25B7'; }
+  .swTable-rowWrapper--expanded .swTable-rowToggle:before {
+    content: '\25BC'; }
+
+.swTable-rowInfo {
+  text-align: center; }
+
+.swTable-rowCount {
+  display: inline-block;
+  color: #354B63;
+  background-color: #fff;
+  border-radius: 10px;
+  margin-left: 6px;
+  padding: 0 4px; }
+
+.swTable-sortDirection {
+  display: none;
+  color: #96A0AC;
+  margin-left: 5px; }
+  .is-sorted .swTable-sortDirection {
+    display: inline-block; }
+  .swTable-sortDirection:before {
+    content: '\25B4';
+    position: relative;
+    top: -5px;
+    left: 0; }
+  .swTable-sortDirection:after {
+    content: '\25BE';
+    position: relative;
+    top: 3px;
+    left: -7px; }
+  .sortDirection--asc .swTable-sortDirection:after {
+    color: #fff;
+    content: '\25BE'; }
+  .sortDirection--desc .swTable-sortDirection:before {
+    color: #fff;
+    content: '\25B4'; }
 
 /*# sourceMappingURL=sw-table.css.map */
