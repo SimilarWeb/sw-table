@@ -1,22 +1,23 @@
-<div class="swTable">
-    <div class="swTable-row swTable-headerRow">
-        <div class="swTable-headerCell" style="width: 61px;"></div>
-        <div class="swTable-headerCell" ng-repeat="cell in tableColumns" ng-click="onSorted(cell)" ng-class="{'is-sorted': cell.isSorted, 'sortDirection--asc': cell.sortDirection == 'ASC', 'sortDirection--desc': cell.sortDirection == 'DESC'}" ng-include="cell.headerCellTemplate" ng-style="{'width': cell.width + 'px'}">
-        </div>
-    </div>
-    <div class="swTable-rowWrapper" ng-class="{'swTable-rowWrapper--expanded': row.toggle, 'swTable-rowWrapper--collapsed': !row.toggle}" ng-repeat="row in tableData">
-        <div class="swTable-row">
-            <div class="swTable-cell swTable-rowInfo">
-                <span class="swTable-rowNumber">{{$index + 1}}</span>
-                <span class="swTable-rowToggle" ng-if="row.Children" ng-click="onRowToggle(row)"></span>
-            </div>
-            <div class="swTable-cell" ng-repeat="cell in tableColumns" ng-class="{'is-sorted': cell.isSorted}" ng-include="cell.cellTemplate">
+<div>
+    <div class="swTable">
+        <div class="swTable-row swTable-headerRow">
+            <div class="swTable-headerCell swTable-headerCell--rowInfo"></div>
+            <div class="swTable-headerCell" ng-repeat="cell in tableColumns" ng-click="onSorted(cell)" ng-class="{'is-sorted': cell.isSorted, 'sortDirection--asc': cell.sortDirection == 'ASC', 'sortDirection--desc': cell.sortDirection == 'DESC'}" ng-include="cell.headerCellTemplate" ng-style="{'width': cell.width + 'px'}">
             </div>
         </div>
-        <div class="swTable-row swTable-ChildRow" ng-repeat="row in row.Children">
-            <div class="swTable-cell"></div>
-            <div class="swTable-cell" ng-repeat="cell in tableColumns" ng-class="{'is-sorted': cell.isSorted}" ng-include="cell.cellTemplate" ng-style="{'width': cell.width}"></div>
+        <div class="swTable-rowWrapper" ng-class="{'swTable-rowWrapper--expanded': row.toggle, 'swTable-rowWrapper--collapsed': !row.toggle}" ng-repeat="row in tableData track by $index">
+            <div class="swTable-row">
+                <div class="swTable-cell swTable-rowInfo" ng-include="'templates/row-info.html'"></div>
+                <div class="swTable-cell" ng-repeat="cell in tableColumns" ng-class="{'is-sorted': cell.isSorted}" ng-include="cell.cellTemplate">
+                </div>
+            </div>
+            <div class="swTable-row swTable-ChildRow" ng-repeat="row in row.Children track by $index">
+                <div class="swTable-cell"></div>
+                <div class="swTable-cell" ng-repeat="cell in tableColumns" ng-class="{'is-sorted': cell.isSorted}" ng-include="cell.cellTemplate" ng-style="{'width': cell.width}"></div>
+            </div>
         </div>
     </div>
-    <button type="button" ng-click="onLoadMoreData()">Load More Data</button>
+    <div class="swTable-tableFooter">
+        <button type="button" class="swTable-loadMore" ng-click="onLoadMoreData()">Load More</button>
+    </div>
 </div>
