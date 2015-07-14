@@ -1,12 +1,12 @@
-* {
-  box-sizing: border-box; }
-
 .swTable {
   display: table;
   width: 100%;
   table-layout: fixed;
   font-size: 14px;
-  color: #545454; }
+  color: #545454;
+  background-color: #FFF; }
+  .swTable * {
+    box-sizing: border-box; }
 
 .swTable-rowWrapper {
   display: table-row-group; }
@@ -54,6 +54,9 @@
     background-color: #2D4159;
     text-decoration: underline; }
 
+.swTable-headerCell--rowInfo {
+  width: 61px; }
+
 .swTable-rowToggle {
   display: inline-block;
   float: right;
@@ -66,7 +69,9 @@
     content: '\25BC'; }
 
 .swTable-rowInfo {
-  text-align: center; }
+  text-align: center;
+  padding-right: 0;
+  padding-left: 0; }
 
 .swTable-rowCount {
   display: inline-block;
@@ -98,5 +103,23 @@
   .sortDirection--desc .swTable-sortDirection:before {
     color: #fff;
     content: '\25B4'; }
+
+.swTable-tableFooter {
+  margin-top: 10px; }
+
+.swTable-loadMore {
+  width: 428px;
+  height: 42px;
+  display: block;
+  border-radius: 5px;
+  border: 2px solid #354B63;
+  color: #354B63;
+  background-color: #FFF;
+  text-align: center;
+  font-size: 16px;
+  line-height: 38px;
+  margin: 0 auto;
+  outline: none;
+  cursor: pointer; }
 
 /*# sourceMappingURL=sw-table.css.map */

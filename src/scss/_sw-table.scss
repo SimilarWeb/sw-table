@@ -1,14 +1,15 @@
 $lightBlue: #F8F9FD;
 $darkBlue: #354B63;
-* {
-  box-sizing: border-box;
-}
 .swTable {
   display: table;
   width: 100%;
   table-layout: fixed;
   font-size: 14px;
   color: #545454;
+  background-color: #FFF;
+  * {
+    box-sizing: border-box;
+  }
 }
 .swTable-rowWrapper {
   display: table-row-group;
@@ -61,6 +62,9 @@ $darkBlue: #354B63;
     text-decoration: underline;
   }
 }
+.swTable-headerCell--rowInfo {
+  width: 61px;
+}
 .swTable-rowToggle {
   display: inline-block;
   float: right;
@@ -79,6 +83,8 @@ $darkBlue: #354B63;
 }
 .swTable-rowInfo {
   text-align: center;
+  padding-right: 0;
+  padding-left: 0;
 }
 .swTable-rowCount {
   display: inline-block;
@@ -119,5 +125,22 @@ $darkBlue: #354B63;
       content: '\25B4';
     }
   }
-
+}
+.swTable-tableFooter {
+  margin-top: 10px;
+}
+.swTable-loadMore {
+  width: 428px;
+  height: 42px;
+  display: block;
+  border-radius: 5px;
+  border: 2px solid $darkBlue;
+  color: $darkBlue;
+  background-color: #FFF;
+  text-align: center;
+  font-size: 16px;
+  line-height: 38px;
+  margin: 0 auto;
+  outline: none;
+  cursor: pointer;
 }
