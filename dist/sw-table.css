@@ -48,18 +48,22 @@
   background-color: #354B63;
   color: #fff;
   font-size: 13px;
-  font-weight: bold;
-  vertical-align: middle; }
+  vertical-align: middle;
+  -webkit-user-select: none; }
   .swTable-headerCell.is-sorted {
     background-color: #2D4159;
     text-decoration: underline; }
 
+.swTable-mainCell {
+  padding-left: 24px; }
+
 .swTable-headerCell--rowInfo {
-  width: 61px; }
+  width: 41px; }
 
 .swTable-rowToggle {
   display: inline-block;
-  float: right;
+  position: absolute;
+  left: -20px;
   cursor: pointer; }
   .swTable-rowToggle:hover::before {
     content: '\25B6'; }

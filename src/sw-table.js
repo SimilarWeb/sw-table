@@ -24,7 +24,6 @@ angular.module('sw.table', [])
                 if (!sortedCell.sortable) {
                     return;
                 }
-
                 angular.forEach(tableColumns, function(cellObj) {
                     cellObj.isSorted = false;
                 });

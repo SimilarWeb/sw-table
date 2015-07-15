@@ -1,5 +1,8 @@
 angular.module('main', ['sw.table', 'ngResource', 'ngMockE2E'])
-    .constant('mockData', [
+    .constant('mockData', {
+        "TotalCount": 5275,
+        "TotalUnGroupedCount": 5383,
+        "Records": [
         {
             "Share":0.49505921646710066,
             "Page":"cnn.com",
@@ -348,40 +351,7 @@ angular.module('main', ['sw.table', 'ngResource', 'ngMockE2E'])
                 }
             ]
         }
-    ]).filter('percentage', function () {
-    return function (val, fraction, unavailable) {
-        val = Number(val);
-
-        if (isNaN(val)) {
-            return unavailable ? unavailable : '0';
-        }
-
-        if (!val && unavailable) {
-            return unavailable;
-        }
-
-        if (100 > val * 100 && val * 100 > 99.99) {
-            return ' > 99.99';
-        }
-
-        var zeros = '';
-        for (var k = 0; k < fraction - 1; k++) {
-            zeros += '0';
-        }
-        var round = Number('1' + zeros + '0');
-
-        if (0 < val * 100 && val * 100 < 1 / round && val !== 0) {
-            var ret = ' < 0.';
-            ret += zeros;
-            ret += '1';
-            return ret;
-        }
-
-        val = (Math.round(100 * val * round)) / round;
-        val = val.toFixed(fraction);
-        return val;
-    }
-    })
+    ]})
     .run(function($httpBackend, ServerDataModel) {
         var tableData = ServerDataModel.data,
             pageSize = 5;
@@ -403,15 +373,16 @@ angular.module('main', ['sw.table', 'ngResource', 'ngMockE2E'])
             data: mockData,
             sortData: function(field, sortDirection){
                 // not really sorting, just simulating with a simple reverse
-                return this.data.reverse();
+                this.data.Records.reverse();
+                return this.data;
             },
             loadMoreData: function(pageSize){
-                var data = this.data;
+                var data = this.data.Records;
                 for (var i = 0; i < pageSize; i++) {
-                    var copy = angular.copy(this.data[0]);
+                    var copy = angular.copy(this.data.Records[0]);
                     data.push(copy);
                 }
-                return data;
+                return this.data;
             }
         };
     })
@@ -427,13 +398,12 @@ angular.module('main', ['sw.table', 'ngResource', 'ngMockE2E'])
             new tableService.Column({
                 field: 'Page',
                 displayName: 'URL',
-                //cellTemplate: 'templates/app-name.html',
+                cellTemplate: 'templates/default-group-cell.html',
                 sortable: true
             }),
             new tableService.Column({
                 field: 'Share',
                 displayName: 'Traffic Share',
-                cellTemplate: 'templates/traffic-share.html',
                 sortable: true
             })
         ];
