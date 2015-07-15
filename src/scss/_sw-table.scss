@@ -56,7 +56,7 @@ $darkBlue: #354B63;
   color: #fff;
   font-size: 13px;
   vertical-align: middle;
-  -webkit-user-select: none;
+  user-select: none;
   &.is-sorted {
     background-color: #2D4159;
     text-decoration: underline;
