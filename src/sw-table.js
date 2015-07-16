@@ -1,7 +1,7 @@
 angular.module('sw.table', [])
     .constant('tableConfig', {
         pageSize: 100,
-        sortDirection: 'ASC'
+        sortDirection: 'DESC'
     })
     .service('tableService', function(tableConfig) {
         return {
@@ -52,13 +52,15 @@ angular.module('sw.table', [])
             link: function postLink(scope, elem, attr) {
                 // init
                 scope.updateDataCallback = scope.updateDataCallback(); //unwrap the function for easier syntax and allow for nesting in other directives and services
-                if (scope.tableOptions && scope.tableOptions.showIndex == true) {
-                    scope.tableColumns.unshift(new tableService.Column({
-                        width: 41,
-                        sortable: false,
-                        cellTemplate: 'templates/row-info.html',
-                        headerCellTemplate: 'templates/default-header-cell.html'
-                    }));
+                if (scope.tableOptions) {
+                    if (scope.tableOptions.showIndex == true) {
+                        scope.tableColumns.unshift(new tableService.Column({
+                            width: 41,
+                            sortable: false,
+                            cellTemplate: 'templates/row-info.html',
+                            headerCellTemplate: 'templates/default-header-cell.html'
+                        }));
+                    }
                 }
                 // draw the UI under "elem"
                 // todo add default params to columns here so it doesn't need to be in every controller
@@ -68,9 +70,11 @@ angular.module('sw.table', [])
                 scope.onSorted = function(sortedCell) {
                     tableService.onSorted(sortedCell, scope.tableColumns, scope.updateDataCallback);
                 };
-                scope.onLoadMoreData = function() {
-                    tableService.onLoadMoreData(tableConfig.pageSize, scope.updateDataCallback);
-                };
+                if (scope.tableOptions && scope.tableOptions.showLoadMore == true) {
+                    scope.onLoadMoreData = function() {
+                        tableService.onLoadMoreData(tableConfig.pageSize, scope.updateDataCallback);
+                    };
+                }
                 scope.onRowToggle = function(row){
                     row.toggle = !row.toggle;
                 };
