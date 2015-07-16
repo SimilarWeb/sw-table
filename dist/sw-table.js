@@ -1,7 +1,7 @@
 'use strict';
 angular.module('sw.table', [])
     .constant('tableConfig', {
-        pageSize: 5,
+        pageSize: 100,
         sortDirection: 'ASC'
     })
     .service('tableService', function(tableConfig) {
@@ -19,6 +19,7 @@ angular.module('sw.table', [])
                 this.sortDirection = config.sortDirection || tableConfig.sortDirection;
                 this.isSorted = config.isSorted || false;
                 this.width = config.width;
+                this.groupable = config.groupable || false;
             },
 
             onSorted: function(sortedCell, tableColumns, onUpdateData) {
@@ -44,6 +45,7 @@ angular.module('sw.table', [])
             scope: {
                 tableData: '=',
                 tableColumns: '=',
+                tableOptions: '=',
                 updateDataCallback: '&'
             },
             templateUrl: 'src/table.html',
@@ -51,6 +53,14 @@ angular.module('sw.table', [])
             link: function postLink(scope, elem, attr) {
                 // init
                 scope.updateDataCallback = scope.updateDataCallback(); //unwrap the function for easier syntax and allow for nesting in other directives and services
+                if (scope.tableOptions && scope.tableOptions.showIndex == true) {
+                    scope.tableColumns.unshift(new tableService.Column({
+                        width: 41,
+                        sortable: false,
+                        cellTemplate: 'templates/row-info.html',
+                        headerCellTemplate: 'templates/default-header-cell.html'
+                    }));
+                }
                 // draw the UI under "elem"
                 // todo add default params to columns here so it doesn't need to be in every controller
 
@@ -74,8 +84,7 @@ angular.module('sw.table', [])
                 // send events down the scope tree or up the scope tree etc
             }
         }
-    })
-;
+    });
 
 angular.module('sw.table').run(['$templateCache', function($templateCache) {
   'use strict';
@@ -84,12 +93,11 @@ angular.module('sw.table').run(['$templateCache', function($templateCache) {
     "<div>\n" +
     "    <div class=\"swTable\">\n" +
     "        <div class=\"swTable-row swTable-headerRow\">\n" +
-    "            <div class=\"swTable-headerCell swTable-headerCell--rowInfo\"></div>\n" +
     "            <div class=\"swTable-headerCell\"\n" +
     "                 ng-class=\"{'is-sorted': cell.isSorted,\n" +
     "                    'sortDirection--asc': cell.sortDirection == 'ASC',\n" +
     "                    'sortDirection--desc': cell.sortDirection == 'DESC',\n" +
-    "                    'swTable-mainCell': $index == 0}\"\n" +
+    "                    'swTable-groupCell': cell.groupable}\"\n" +
     "                 ng-repeat=\"cell in tableColumns\"\n" +
     "                 ng-click=\"onSorted(cell)\"\n" +
     "                 ng-include=\"cell.headerCellTemplate\"\n" +
@@ -100,13 +108,12 @@ angular.module('sw.table').run(['$templateCache', function($templateCache) {
     "             ng-class=\"{'swTable-rowWrapper--expanded': row.toggle, 'swTable-rowWrapper--collapsed': !row.toggle}\"\n" +
     "             ng-repeat=\"row in tableData.Records track by $index\">\n" +
     "            <div class=\"swTable-row\">\n" +
-    "                <div class=\"swTable-cell swTable-rowInfo\" ng-include=\"'templates/row-info.html'\"></div>\n" +
-    "                <div class=\"swTable-cell\" ng-repeat=\"cell in tableColumns\" ng-class=\"{'is-sorted': cell.isSorted, 'swTable-mainCell': $index == 0}\" ng-include=\"cell.cellTemplate\">\n" +
+    "                <div class=\"swTable-cell\" ng-repeat=\"cell in tableColumns\" ng-class=\"{'is-sorted': cell.isSorted, 'swTable-groupCell': cell.groupable}\" ng-include=\"cell.cellTemplate\">\n" +
     "                </div>\n" +
     "            </div>\n" +
     "            <div class=\"swTable-row swTable-ChildRow\" ng-repeat=\"row in row.Children track by $index\">\n" +
-    "                <div class=\"swTable-cell\"></div>\n" +
-    "                <div class=\"swTable-cell\" ng-repeat=\"cell in tableColumns\" ng-class=\"{'is-sorted': cell.isSorted, 'swTable-mainCell': $index == 0}\" ng-include=\"cell.cellTemplate\" ng-style=\"{'width': cell.width}\"></div>\n" +
+    "                <div class=\"swTable-cell\" ng-repeat=\"cell in tableColumns\" ng-class=\"{'is-sorted': cell.isSorted, 'swTable-groupCell': cell.groupable}\" ng-include=\"cell.cellTemplate\">\n" +
+    "                </div>\n" +
     "            </div>\n" +
     "        </div>\n" +
     "    </div>\n" +
@@ -123,21 +130,27 @@ angular.module('sw.table').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('templates/default-group-cell.html',
-    "<div style=\"position: relative;\"><div class=\"swTable-rowToggle\" ng-if=\"row.Children\" ng-click=\"onRowToggle(row)\"></div>{{ row[cell.field] }} <span ng-if=\"row.Children\">({{row.Children.length}})</span></div>"
+    "<div style=\"position: relative;\">\r" +
+    "\n" +
+    "    <div class=\"swTable-rowToggle\" ng-if=\"row.Children\" ng-click=\"onRowToggle(row)\"></div>\r" +
+    "\n" +
+    "    {{ row[cell.field] }} <span ng-if=\"row.Children\">({{row.Children.length}})</span>\r" +
+    "\n" +
+    "</div>"
   );
 
 
   $templateCache.put('templates/default-header-cell.html',
-    "<div>{{cell.displayName}}<div class=\"swTable-sortDirection\"></div></div>\r" +
+    "<div>{{cell.displayName}}<div ng-if=\"cell.sortable\" class=\"swTable-sortDirection\"></div></div>\r" +
     "\n" +
     "</div>"
   );
 
 
   $templateCache.put('templates/row-info.html',
-    "<div>\r" +
+    "<div class=\"swTable-rowInfo\">\r" +
     "\n" +
-    "    <span class=\"swTable-rowNumber\">{{$index + 1}}</span>\r" +
+    "    <span class=\"swTable-rowNumber\">{{$parent.$parent.$index + 1}}</span>\r" +
     "\n" +
     "</div>"
   );

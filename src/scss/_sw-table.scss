@@ -4,7 +4,7 @@ $darkBlue: #354B63;
   display: table;
   width: 100%;
   table-layout: fixed;
-  font-size: 14px;
+  font-size: 13px;
   color: #545454;
   background-color: #FFF;
   * {
@@ -54,7 +54,7 @@ $darkBlue: #354B63;
   padding: 0 12px;
   background-color: $darkBlue;
   color: #fff;
-  font-size: 13px;
+  font-weight: bold;
   vertical-align: middle;
   user-select: none;
   &.is-sorted {
@@ -62,7 +62,7 @@ $darkBlue: #354B63;
     text-decoration: underline;
   }
 }
-.swTable-mainCell {
+.swTable-groupCell {
   padding-left: 24px;
 }
 .swTable-headerCell--rowInfo {
@@ -89,6 +89,9 @@ $darkBlue: #354B63;
   text-align: center;
   padding-right: 0;
   padding-left: 0;
+  .swTable-ChildRow & {
+    display: none;
+  }
 }
 .swTable-rowCount {
   display: inline-block;
@@ -131,7 +134,7 @@ $darkBlue: #354B63;
   }
 }
 .swTable-tableFooter {
-  margin-top: 10px;
+  margin: 10px 0;
 }
 .swTable-loadMore {
   width: 428px;

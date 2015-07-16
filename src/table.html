@@ -1,12 +1,11 @@
 <div>
     <div class="swTable">
         <div class="swTable-row swTable-headerRow">
-            <div class="swTable-headerCell swTable-headerCell--rowInfo"></div>
             <div class="swTable-headerCell"
                  ng-class="{'is-sorted': cell.isSorted,
                     'sortDirection--asc': cell.sortDirection == 'ASC',
                     'sortDirection--desc': cell.sortDirection == 'DESC',
-                    'swTable-mainCell': $index == 0}"
+                    'swTable-groupCell': cell.groupable}"
                  ng-repeat="cell in tableColumns"
                  ng-click="onSorted(cell)"
                  ng-include="cell.headerCellTemplate"
@@ -17,13 +16,12 @@
              ng-class="{'swTable-rowWrapper--expanded': row.toggle, 'swTable-rowWrapper--collapsed': !row.toggle}"
              ng-repeat="row in tableData.Records track by $index">
             <div class="swTable-row">
-                <div class="swTable-cell swTable-rowInfo" ng-include="'templates/row-info.html'"></div>
-                <div class="swTable-cell" ng-repeat="cell in tableColumns" ng-class="{'is-sorted': cell.isSorted, 'swTable-mainCell': $index == 0}" ng-include="cell.cellTemplate">
+                <div class="swTable-cell" ng-repeat="cell in tableColumns" ng-class="{'is-sorted': cell.isSorted, 'swTable-groupCell': cell.groupable}" ng-include="cell.cellTemplate">
                 </div>
             </div>
             <div class="swTable-row swTable-ChildRow" ng-repeat="row in row.Children track by $index">
-                <div class="swTable-cell"></div>
-                <div class="swTable-cell" ng-repeat="cell in tableColumns" ng-class="{'is-sorted': cell.isSorted, 'swTable-mainCell': $index == 0}" ng-include="cell.cellTemplate" ng-style="{'width': cell.width}"></div>
+                <div class="swTable-cell" ng-repeat="cell in tableColumns" ng-class="{'is-sorted': cell.isSorted, 'swTable-groupCell': cell.groupable}" ng-include="cell.cellTemplate">
+                </div>
             </div>
         </div>
     </div>

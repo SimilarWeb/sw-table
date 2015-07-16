@@ -1,1 +1,4 @@
-<div style="position: relative;"><div class="swTable-rowToggle" ng-if="row.Children" ng-click="onRowToggle(row)"></div>{{ row[cell.field] }} <span ng-if="row.Children">({{row.Children.length}})</span></div>
+<div style="position: relative;">
+    <div class="swTable-rowToggle" ng-if="row.Children" ng-click="onRowToggle(row)"></div>
+    {{ row[cell.field] }} <span ng-if="row.Children">({{row.Children.length}})</span>
+</div>

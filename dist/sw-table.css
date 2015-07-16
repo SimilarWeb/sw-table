@@ -2,7 +2,7 @@
   display: table;
   width: 100%;
   table-layout: fixed;
-  font-size: 14px;
+  font-size: 13px;
   color: #545454;
   background-color: #FFF; }
   .swTable * {
@@ -47,14 +47,14 @@
   padding: 0 12px;
   background-color: #354B63;
   color: #fff;
-  font-size: 13px;
+  font-weight: bold;
   vertical-align: middle;
   user-select: none; }
   .swTable-headerCell.is-sorted {
     background-color: #2D4159;
     text-decoration: underline; }
 
-.swTable-mainCell {
+.swTable-groupCell {
   padding-left: 24px; }
 
 .swTable-headerCell--rowInfo {
@@ -76,6 +76,8 @@
   text-align: center;
   padding-right: 0;
   padding-left: 0; }
+  .swTable-ChildRow .swTable-rowInfo {
+    display: none; }
 
 .swTable-rowCount {
   display: inline-block;
@@ -109,7 +111,7 @@
     content: '\25B4'; }
 
 .swTable-tableFooter {
-  margin-top: 10px; }
+  margin: 10px 0; }
 
 .swTable-loadMore {
   width: 428px;

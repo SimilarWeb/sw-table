@@ -399,7 +399,8 @@ angular.module('main', ['sw.table', 'ngResource', 'ngMockE2E'])
                 field: 'Page',
                 displayName: 'URL',
                 cellTemplate: 'templates/default-group-cell.html',
-                sortable: true
+                sortable: true,
+                groupable: true
             }),
             new tableService.Column({
                 field: 'Share',
@@ -408,6 +409,9 @@ angular.module('main', ['sw.table', 'ngResource', 'ngMockE2E'])
             })
         ];
         $scope.tableData = [];
+        $scope.tableOptions = {
+            showIndex: true
+        };
         $scope.queryHttp = function(params) {
             HttpService.query(params)
                 .error(function(data, status, headers) {

@@ -1,6 +1,6 @@
 angular.module('sw.table', [])
     .constant('tableConfig', {
-        pageSize: 5,
+        pageSize: 100,
         sortDirection: 'ASC'
     })
     .service('tableService', function(tableConfig) {
@@ -18,6 +18,7 @@ angular.module('sw.table', [])
                 this.sortDirection = config.sortDirection || tableConfig.sortDirection;
                 this.isSorted = config.isSorted || false;
                 this.width = config.width;
+                this.groupable = config.groupable || false;
             },
 
             onSorted: function(sortedCell, tableColumns, onUpdateData) {
@@ -43,6 +44,7 @@ angular.module('sw.table', [])
             scope: {
                 tableData: '=',
                 tableColumns: '=',
+                tableOptions: '=',
                 updateDataCallback: '&'
             },
             templateUrl: 'src/table.html',
@@ -50,6 +52,14 @@ angular.module('sw.table', [])
             link: function postLink(scope, elem, attr) {
                 // init
                 scope.updateDataCallback = scope.updateDataCallback(); //unwrap the function for easier syntax and allow for nesting in other directives and services
+                if (scope.tableOptions && scope.tableOptions.showIndex == true) {
+                    scope.tableColumns.unshift(new tableService.Column({
+                        width: 41,
+                        sortable: false,
+                        cellTemplate: 'templates/row-info.html',
+                        headerCellTemplate: 'templates/default-header-cell.html'
+                    }));
+                }
                 // draw the UI under "elem"
                 // todo add default params to columns here so it doesn't need to be in every controller
 
@@ -73,5 +83,4 @@ angular.module('sw.table', [])
                 // send events down the scope tree or up the scope tree etc
             }
         }
-    })
-;
+    });
