@@ -1,0 +1,9 @@
+<div>
+    <a sw-website-info-tip="{{row[cell.field]}}"
+       ng-href="/website/analysis/#/{{row[cell.field]}}/*/999/6m/audience/overview"
+       target="_blank">
+        <img ng-src="{{row.Icon || row.Favicon}}" class="favicon"/>
+        {{row[cell.field]}}
+    </a>
+    <a class="sw-link-out" href="http://{{row[cell.field]}}" target="_blank"></a>
+</div>

@@ -134,46 +134,56 @@ angular.module('sw.table').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('templates/default-group-cell.html',
-    "<div style=\"position: relative;\">\r" +
-    "\n" +
-    "    <div class=\"swTable-rowToggle\" ng-if=\"row.Children\" ng-click=\"onRowToggle(row)\"></div>\r" +
-    "\n" +
-    "    {{ row[cell.field] }} <span ng-if=\"row.Children\">({{row.Children.length}})</span>\r" +
-    "\n" +
+    "<div style=\"position: relative;\">\n" +
+    "    <div class=\"swTable-rowToggle\" ng-if=\"row.Children\" ng-click=\"onRowToggle(row)\"></div>\n" +
+    "    {{ row[cell.field] }} <span ng-if=\"row.Children\">({{row.Children.length}})</span>\n" +
     "</div>"
   );
 
 
   $templateCache.put('templates/default-header-cell.html',
-    "<div>{{cell.displayName}}<div ng-if=\"cell.sortable\" class=\"swTable-sortDirection\"></div></div>\r" +
-    "\n" +
+    "<div>{{cell.displayName}}<div ng-if=\"cell.sortable\" class=\"swTable-sortDirection\"></div></div>\n" +
     "</div>"
   );
 
 
   $templateCache.put('templates/row-info.html',
-    "<div class=\"swTable-rowInfo\">\r" +
-    "\n" +
-    "    <span class=\"swTable-rowNumber\">{{$parent.$parent.$index + 1}}</span>\r" +
-    "\n" +
+    "<div class=\"swTable-rowInfo\">\n" +
+    "    <span class=\"swTable-rowNumber\">{{$parent.$parent.$index + 1}}</span>\n" +
     "</div>"
   );
 
 
   $templateCache.put('templates/row-selection.html',
-    "<div class=\"sw-header-title\" sw-titelize=\"keywords.analysis.table.checkbox\">\r" +
-    "\n" +
-    "    <input type=\"checkbox\" tabindex=\"-1\" ng-checked=\"\" />\r" +
-    "\n" +
-    "</div>\r" +
-    "\n"
+    "<div class=\"sw-header-title\" sw-titelize=\"keywords.analysis.table.checkbox\">\n" +
+    "    <input type=\"checkbox\" tabindex=\"-1\" ng-checked=\"\" />\n" +
+    "</div>\n"
   );
 
 
   $templateCache.put('templates/site-name.html',
+    "<div>\n" +
+    "    {{ row[cell.field] }} <span ng-if=\"row.Children\">({{row.Children.length}})</span>\n" +
+    "</div>"
+  );
+
+
+  $templateCache.put('templates/website-tooltip-cell.html',
     "<div>\r" +
     "\n" +
-    "    {{ row[cell.field] }} <span ng-if=\"row.Children\">({{row.Children.length}})</span>\r" +
+    "    <a sw-website-info-tip=\"{{row[cell.field]}}\"\r" +
+    "\n" +
+    "       ng-href=\"/website/analysis/#/{{row[cell.field]}}/*/999/6m/audience/overview\"\r" +
+    "\n" +
+    "       target=\"_blank\">\r" +
+    "\n" +
+    "        <img ng-src=\"{{row.Icon || row.Favicon}}\" class=\"favicon\"/>\r" +
+    "\n" +
+    "        {{row[cell.field]}}\r" +
+    "\n" +
+    "    </a>\r" +
+    "\n" +
+    "    <a class=\"sw-link-out\" href=\"http://{{row[cell.field]}}\" target=\"_blank\"></a>\r" +
     "\n" +
     "</div>"
   );
